@@ -1,0 +1,33 @@
+# gis-edge-worker — always-on edge mirror for the GIS OSINT Agentic Swarm.
+#
+#   bunx wrangler deploy --config cloudflare/wrangler.toml
+#   bunx wrangler dev    --config cloudflare/wrangler.toml
+#
+# No paid GIS provider is bound here. The only map upstream is OpenFreeMap
+# (tiles.openfreemap.org), proxied for edge caching; style/sprite/glyph
+# requests are cached at 1 day, planet tiles immutably for a year.
+#
+# Secrets (set with `wrangler secret put`, never in this file):
+#   X402_PAY_TO         receiving address for premium calls (absent ⇒ premium closed)
+#   X402_FACILITATOR    settlement verifier endpoint
+#   GOOGLE_CLIENT_ID / MICROSOFT_CLIENT_ID / HUAWEI_CLIENT_ID   token audiences
+
+name = "gis-osint-agentic-swarm-edge"
+main = "gis-edge-worker.ts"
+compatibility_date = "2026-01-01"
+
+[vars]
+OFM_ORIGIN = "https://tiles.openfreemap.org"
+X402_PRICE_USD = "5"
+
+[[kv_namespaces]]
+binding = "GIS_KV"
+id = "REPLACE_WITH_YOUR_KV_ID"
+preview_id = "REPLACE_WITH_YOUR_PREVIEW_KV_ID"
+
+[observability]
+enabled = true
+
+# Cache API is always available in Workers; no extra binding is needed for the
+# tile/style edge cache. Routes are matched by the worker itself, so no
+# [routes] block is required when deployed to workers.dev.

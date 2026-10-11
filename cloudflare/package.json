@@ -1,0 +1,17 @@
+{
+  "name": "gis-osint-agentic-swarm-edge",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Edge worker for the GIS OSINT Agentic Swarm: open tile cache, auth verification, x402 premium gate.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "typecheck": "tsc --noEmit --target esnext --module esnext --moduleResolution bundler --lib esnext --types @cloudflare/workers-types gis-edge-worker.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240909.0",
+    "wrangler": "^3.78.0"
+  }
+}

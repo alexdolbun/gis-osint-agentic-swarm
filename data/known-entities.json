@@ -1,0 +1,27 @@
+{
+  "v": 1,
+  "note": "Seed entity spine for geo-social correlation. Coordinates are the public reference point of each place (venue/port/HQ), not a private address. Extend freely — QAA only asserts the shape, never the count.",
+  "entities": [
+    { "id": "port:rotterdam", "name": "Port of Rotterdam", "kind": "venue", "lat": 51.9491, "lon": 4.1437, "tags": ["port", "industrial", "logistics"] },
+    { "id": "port:singapore", "name": "Port of Singapore", "kind": "venue", "lat": 1.2644, "lon": 103.8200, "tags": ["port", "industrial", "logistics"] },
+    { "id": "port:jebel-ali", "name": "Jebel Ali Port", "kind": "venue", "lat": 25.0106, "lon": 55.0614, "tags": ["port", "industrial"] },
+    { "id": "port:newark", "name": "Port Newark-Elizabeth", "kind": "venue", "lat": 40.6846, "lon": -74.1502, "tags": ["port", "industrial"] },
+    { "id": "port:shanghai", "name": "Port of Shanghai (Yangshan)", "kind": "venue", "lat": 30.6188, "lon": 122.0790, "tags": ["port", "industrial"] },
+    { "id": "port:hamburg", "name": "Port of Hamburg", "kind": "venue", "lat": 53.5413, "lon": 9.9281, "tags": ["port", "industrial"] },
+    { "id": "fin:nyse", "name": "New York Stock Exchange", "kind": "venue", "lat": 40.7069, "lon": -74.0113, "tags": ["financial", "exchange"] },
+    { "id": "fin:lse", "name": "London Stock Exchange", "kind": "venue", "lat": 51.5149, "lon": -0.0996, "tags": ["financial", "exchange"] },
+    { "id": "fin:sgx", "name": "Singapore Exchange", "kind": "venue", "lat": 1.2839, "lon": 103.8514, "tags": ["financial", "exchange"] },
+    { "id": "fin:dfm", "name": "Dubai Financial Market", "kind": "venue", "lat": 25.2126, "lon": 55.2795, "tags": ["financial", "exchange"] },
+    { "id": "fin:tadawul", "name": "Saudi Exchange (Tadawul)", "kind": "venue", "lat": 24.6877, "lon": 46.7219, "tags": ["financial", "exchange"] },
+    { "id": "fin:euronext", "name": "Euronext Amsterdam", "kind": "venue", "lat": 52.3770, "lon": 4.8930, "tags": ["financial", "exchange"] },
+    { "id": "fin:hkex", "name": "Hong Kong Exchanges", "kind": "venue", "lat": 22.2830, "lon": 114.1597, "tags": ["financial", "exchange"] },
+    { "id": "dc:ashburn", "name": "Ashburn Data Center Alley", "kind": "venue", "lat": 39.0438, "lon": -77.4874, "tags": ["data_center", "industrial"] },
+    { "id": "dc:singapore", "name": "Singapore Data Center Cluster", "kind": "venue", "lat": 1.3300, "lon": 103.7500, "tags": ["data_center", "industrial"] },
+    { "id": "dc:dublin", "name": "Dublin Data Center Cluster", "kind": "venue", "lat": 53.3500, "lon": -6.3000, "tags": ["data_center", "industrial"] },
+    { "id": "air:changi", "name": "Changi Airport", "kind": "venue", "lat": 1.3644, "lon": 103.9915, "tags": ["airport"] },
+    { "id": "air:dxb", "name": "Dubai International Airport", "kind": "venue", "lat": 25.2532, "lon": 55.3657, "tags": ["airport"] },
+    { "id": "air:sfo", "name": "San Francisco International", "kind": "venue", "lat": 37.6213, "lon": -122.3790, "tags": ["airport"] },
+    { "id": "air:ams", "name": "Amsterdam Schiphol", "kind": "venue", "lat": 52.3105, "lon": 4.7683, "tags": ["airport"] },
+    { "id": "org:unicornsmap", "name": "UnicornsMap", "kind": "org", "lat": 1.3521, "lon": 103.8198, "x": "@alexdolbun", "tags": ["financial", "data_center"] }
+  ]
+}

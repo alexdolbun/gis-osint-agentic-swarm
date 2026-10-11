@@ -1,0 +1,76 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: CI gate (G1–G6)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache bun deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock', 'package.json') }}
+          restore-keys: bun-${{ runner.os }}-
+
+      - name: Install
+        run: bun install --frozen-lockfile || bun install
+
+      - name: G1 typecheck
+        run: bunx tsc --noEmit
+
+      - name: G2 QAA suite
+        run: bun test
+
+      - name: G3 open-stack policy
+        run: |
+          BANNED='api\.mapbox\.com|tiles\.mapbox\.com|mapbox://|maps\.googleapis\.com|maps\.google\.com|maptiler\.com|stadiamaps\.com|cartocdn\.com|arcgisonline\.com|tomtom\.com|hereapi\.com|virtualearth\.net|maps\.yandex'
+          if grep -rInE "$BANNED" src cloudflare scripts --exclude=ci-gate.sh; then
+            echo "::error::paid GIS provider host present in shipped code"; exit 1
+          fi
+          echo "no paid GIS provider host in src/, cloudflare/, scripts/"
+
+      - name: G4 open origin pinned
+        run: grep -q 'tiles\.openfreemap\.org' cloudflare/gis-edge-worker.ts
+
+      - name: G5 cache floor + single-flight
+        run: bun run scripts/cache-bench.ts
+
+      - name: G6 swarm smoke (offline)
+        run: bun run scripts/run-swarm.ts --offline --demo --cities 4
+
+      - name: Upload run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swarm-artifacts
+          path: out/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  docker:
+    name: Docker gate image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build gate target
+        run: docker build --target gate -t gis-osint-swarm-gate .
+      - name: Run gate inside the image
+        run: docker run --rm gis-osint-swarm-gate

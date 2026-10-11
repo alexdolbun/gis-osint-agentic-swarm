@@ -1,0 +1,32 @@
+{
+  "name": "gis-osint-agentic-swarm",
+  "version": "2.0.0",
+  "description": "GIS OSINT Agentic Swarm Orchestra Conductor — auto-login auth swarm + geo OSINT agents + alpha capture, built for maximum cache hit rate and high-load efficiency across all 7 OSI layers.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Aleksei Dolgikh (@alexdolbun)",
+  "homepage": "https://github.com/alexdolbun/gis-osint-agentic-swarm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexdolbun/gis-osint-agentic-swarm.git"
+  },
+  "keywords": ["gis", "osint", "swarm", "agentic", "conductor", "maplibre", "openfreemap", "overpass", "x402", "auth"],
+  "module": "src/index.ts",
+  "scripts": {
+    "qaa": "bun test",
+    "qaa:watch": "bun test --watch",
+    "bench": "bun run scripts/cache-bench.ts",
+    "swarm": "bun run scripts/run-swarm.ts",
+    "swarm:demo": "bun run scripts/run-swarm.ts --demo --offline",
+    "backup": "bash scripts/backup-sync.sh",
+    "typecheck": "bunx tsc --noEmit",
+    "ci": "bash scripts/ci-gate.sh"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,60 @@
+version: "3.9"
+
+# Two ways to run the swarm:
+#   docker compose run --rm swarm          # deterministic offline run (default)
+#   docker compose run --rm swarm-live     # live Overpass + STAC
+#   docker compose run --rm gate           # the full CI gate
+#
+# No volumes are required for a run; the artifacts land in ./out via a bind mount.
+
+services:
+  swarm:
+    build:
+      context: .
+      target: runtime
+    image: gis-osint-swarm:2.0.0
+    environment:
+      SWARM_MODE: demo
+      SWARM_CITIES: "6"
+      SWARM_CONCURRENCY: "8"
+      SWARM_RATE_PER_MIN: "120"
+      SWARM_OUT: out
+    volumes:
+      - ./out:/app/out
+    restart: "no"
+
+  swarm-live:
+    build:
+      context: .
+      target: runtime
+    image: gis-osint-swarm:2.0.0
+    environment:
+      SWARM_MODE: live
+      SWARM_CITIES: "12"
+      SWARM_CONCURRENCY: "8"
+      SWARM_RATE_PER_MIN: "120"
+      SWARM_OUT: out
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ./out:/app/out
+    restart: "no"
+
+  gate:
+    build:
+      context: .
+      target: gate
+    image: gis-osint-swarm-gate:2.0.0
+    restart: "no"
+
+  # Optional: serve the edge worker locally against the same open tile origin.
+  edge:
+    image: node:22-alpine
+    working_dir: /app/cloudflare
+    volumes:
+      - ./cloudflare:/app/cloudflare:ro
+    command: sh -lc "npx --yes wrangler@3 dev --ip 0.0.0.0 --port 8787"
+    ports:
+      - "8787:8787"
+    profiles: ["edge"]
